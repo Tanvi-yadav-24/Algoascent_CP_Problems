@@ -1,0 +1,100 @@
+Link to the problem is :- https://codeforces.com/contest/81/problem/A
+
+
+I was thinking of some logic similar to the first code, but was not able to code it properly because sometimes i was not able to resolve the end points like i was comparing a[i] and a[i+1] then also with a[i-1].
+
+FIRST APPROACH:-
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string s;
+    cin >> s;
+
+    while (true) {
+        string str2 = "";
+        bool changed = false;
+
+        for (int i = 0; i < s.length(); i++) {
+            if (i + 1 < s.length() && s[i] == s[i + 1]) {
+                // skip both characters
+                changed = true;
+                i++; // skip next also
+            } else {
+                // keep current character
+                str2.push_back(s[i]);
+            }
+        }
+
+        // if no pair was removed, stop
+        if (!changed) {
+            cout << s;
+            break;
+        }
+
+        // repeat on new string
+        s = str2;
+    }
+
+    return 0;
+}
+
+"""  TIME COMPLEXITY OF THIS CODE = O(n2)   --> NOT ABLE TO UNDERSTAND HOW
+     SPACE COMPLEXITY OF THIS CODE IS O(n)
+"""
+
+
+SECOND MODIFIED CODE:-
+
+bool changed;
+do {
+    changed = false;
+    string str2 = "";
+
+    for (int i = 0; i < s.length(); i++) {
+        if (i + 1 < s.length() && s[i] == s[i + 1]) {
+            changed = true;
+            i++;
+        } else {
+            str2.push_back(s[i]);
+        }
+    }
+
+    s = str2;
+} while (changed);
+
+cout << s;
+
+
+
+SIMPLEST CODE (STACK APPROACH) :-
+
+Whenever you see “remove adjacent duplicates repeatedly”, think STACK.
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string s;
+    cin >> s;
+
+    string ans = "";
+
+    for (char c : s) {
+        if (!ans.empty() && ans.back() == c) {
+            ans.pop_back();   // remove pair
+        } else {
+            ans.push_back(c); // keep character
+        }
+    }
+
+    cout << ans;
+    return 0;
+}
+
+
+""" STACK APPROACH TIME COMPLEXITY IS O(N)
+"""
